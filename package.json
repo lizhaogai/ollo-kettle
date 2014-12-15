@@ -2,9 +2,11 @@
     "name": "ollo-kettle",
     "version": "0.0.1",
     "description": "Ollo Kettle",
-    "main": "./index.js",
+    "main": "./libs/index.js",
     "devDependencies": {
+        "ollo-pusher": "lizhaogai/ollo-pusher",
         "nino": "git+ssh://git@bitbucket.org:ollomind/nino.git",
+        "rulen": "git+ssh://git@bitbucket.org:ollomind/rulen.git",
         "sira-core": "taoyuan/sira-core"
     },
     "scripts": {
@@ -15,7 +17,6 @@
         "test": "test"
     },
     "dependencies": {
-        "ollo-pusher": "lizhaogai/ollo-pusher",
         "underscore": "^1.7.0",
         "lodash": "^2.4.1"
     }
