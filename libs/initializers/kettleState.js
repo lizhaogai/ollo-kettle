@@ -1,14 +1,14 @@
 "use strict";
 
-var events = require('../events');
 var ttl = 24 * 60 * 60; // last data cache ttl 24 hours
 
 module.exports = function () {
     var napp = this;
-    var dataBucket = sapp.store.createBucket("kettle:data", {ttl: ttl}); // seconds
+    var log = napp.log.get('kettle:data');
+    var dataBucket = napp.store.createBucket("kettle:data", {ttl: ttl}); // seconds
 
     // update last data on node:data
-    napp.on(events.NODE_DATA, function (message) {
+    napp.on('node:data', function (message) {
         var key = cacheKey(message.owner, message.guid);
 
         dataBucket.get(key, function (err, value) {
@@ -20,17 +20,21 @@ module.exports = function () {
                 if (err) throw err;
             });
 
-            var newValue = (typeof(message.data) == 'string') ? JSON.parse(message.data) : message.data;
-            var oldValue = (typeof(value) == 'string') ? JSON.parse(value) : value;
+            if (message.data.D != 50004 || !value) {
+                return;
+            }
+
+            var newValue = (typeof(message.data.DA) == 'string') ? JSON.parse(message.data.DA) : message.data.DA;
+            var oldValue = (typeof(value.DA) == 'string') ? JSON.parse(value.DA) : value.DA;
 
             if (newValue.onoff == 'on') {
                 if (oldValue.target != 0 && newValue.target == 0) {
                     notifyTarget(message.owner, oldValue.target);
-                } else if (message.owner, newValue.keepwarm) {
+                } else if (newValue.keepwarm) {
                     if (!newValue.boil && !newValue.heating && oldValue.heating) {
-                        notifyKeepwarm(newValue.target);
+                        notifyKeepwarm(message.owner, newValue.target);
                     }
-                } else if (!keepwarm && target == 0 && oldValue.boil && !newValue.boil) {
+                } else if (!newValue.keepwarm && newValue.target == 0 && oldValue.boil && !newValue.boil) {
                     notifyBoiled(message.owner);
                 }
             }
@@ -54,18 +58,23 @@ module.exports = function () {
     }
 
     function sendNotification(owner, message) {
-        var KettleSettings = napp.getModel('KettleSettings');
-        KettleSettings.get(owner, function (err, kettleSetting) {
-            if (err) {
-                if (err) throw err;
-            }
-
-            if (kettleSetting.notify) {
-                if (napp.pusher) {
-                    napp.pusher(owner, message);
+        napp.rekuest("kettleSettings.find")
+            .prop("ownerId", owner)
+            .send(function (err, result) {
+                if (err) {
+                    if (err) throw err;
                 }
-            }
-        })
+
+                if (result.data.notify) {
+                    if (napp.pusher) {
+                        napp.pusher.notify(owner, message, function (err) {
+                            if (log.isDebugEnabled()) {
+                                log.debug(err);
+                            }
+                        });
+                    }
+                }
+            });
     }
 
 };
