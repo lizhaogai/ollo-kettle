@@ -9,35 +9,34 @@ module.exports = function () {
 
     // update last data on node:data
     napp.on('node:data', function (message) {
+        if (message.data.D != 50004 || !value) {
+            return;
+        }
         var key = cacheKey(message.owner, message.guid);
-
         dataBucket.get(key, function (err, value) {
             if (err) {
                 if (err) throw err;
             }
-
-            dataBucket.set(key, message.data, function (err) {
-                if (err) throw err;
-            });
-
-            if (message.data.D != 50004 || !value) {
-                return;
-            }
-
             var newValue = (typeof(message.data.DA) == 'string') ? JSON.parse(message.data.DA) : message.data.DA;
             var oldValue = (typeof(value.DA) == 'string') ? JSON.parse(value.DA) : value.DA;
-
             if (newValue.onoff == 'on') {
                 if (oldValue.target != 0 && newValue.target == 0) {
                     notifyTarget(message.owner, oldValue.target);
-                } else if (newValue.keepwarm) {
-                    if (!newValue.boil && !newValue.heating && oldValue.heating) {
-                        notifyKeepwarm(message.owner, newValue.target);
+                } else if (newValue.keepwarm && newValue.target && oldValue.keepwarm && (oldValue.target == newValue.target)) {
+                    if (!newValue.boil && !newValue.heating && oldValue.heating && (newValue.temperature - newValue.target) < 2) {
+                        if (!oldValue.notify) {
+                            notifyKeepwarm(message.owner, oldValue.target);
+                        } else {
+                            message.data.notify = true;
+                        }
                     }
                 } else if (!newValue.keepwarm && newValue.target == 0 && oldValue.boil && !newValue.boil) {
                     notifyBoiled(message.owner);
                 }
             }
+            dataBucket.set(key, message.data, function (err) {
+                if (err) throw err;
+            });
         });
 
     });
