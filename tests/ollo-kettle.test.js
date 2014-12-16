@@ -460,7 +460,7 @@ describe('Jpush', function () {
         });
 
 
-        it.only('Heating to target and warm and boil', function (done) {
+        it('Heating to target and warm and boil', function (done) {
             var delay = h.delay(20);
 
             delay(function () {

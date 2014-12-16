@@ -27,7 +27,7 @@ module.exports = function () {
             var oldValue = (typeof(value.DA) == 'string') ? JSON.parse(value.DA) : value.DA;
             oldValue.notify = value.notify;
             if (newValue.onoff == 'on') {
-                if (oldValue.target != 0 && newValue.target == 0) {
+                if (oldValue.target != 0 && newValue.target == 0 && !newValue.heating && !newValue.boil && !newValue.keepwarm) {
                     notifyTarget(message.owner, oldValue.target);
                 } else if (newValue.keepwarm && newValue.target && oldValue.keepwarm && (oldValue.target == newValue.target)) {
                     if (!newValue.boil && !newValue.heating && oldValue.heating && (newValue.temperature - newValue.target) < 2) {
