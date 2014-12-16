@@ -460,7 +460,7 @@ describe('Jpush', function () {
         });
 
 
-        it('Heating to target and warm and boil', function (done) {
+        it.only('Heating to target and warm and boil', function (done) {
             var delay = h.delay(20);
 
             delay(function () {
@@ -598,7 +598,39 @@ describe('Jpush', function () {
                     D: 50004,
                     DA: {
                         temperature: 79,
-                        target: 0,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 81,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 78,
+                        target: 80,
                         boil: 0,
                         keepwarm: 1,
                         heating: 1,
