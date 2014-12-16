@@ -323,7 +323,7 @@ describe('Jpush', function () {
             });
         });
 
-        it.only('Heating to target and warm', function (done) {
+        it('Heating to target and warm', function (done) {
             var delay = h.delay(20);
 
             delay(function () {
