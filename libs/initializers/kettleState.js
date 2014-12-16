@@ -23,27 +23,31 @@ module.exports = function () {
             if (err) {
                 if (err) throw err;
             }
-            var newValue = (typeof(message.data.DA) == 'string') ? JSON.parse(message.data.DA) : message.data.DA;
-            var oldValue = (typeof(value.DA) == 'string') ? JSON.parse(value.DA) : value.DA;
-            oldValue.notify = value.notify;
-            if (newValue.onoff == 'on') {
-                if (oldValue.target != 0 && newValue.target == 0 && !newValue.heating && !newValue.boil && !newValue.keepwarm) {
-                    notifyTarget(message.owner, oldValue.target);
-                } else if (newValue.keepwarm && newValue.target && oldValue.keepwarm && (oldValue.target == newValue.target)) {
-                    if (!newValue.boil && !newValue.heating && oldValue.heating && (newValue.temperature - newValue.target) < 2) {
-                        if (!oldValue.notify) {
-                            notifyKeepwarm(message.owner, oldValue.target);
+            try {
+                var newValue = (typeof(message.data.DA) == 'string') ? JSON.parse(message.data.DA) : message.data.DA;
+                var oldValue = (typeof(value.DA) == 'string') ? JSON.parse(value.DA) : value.DA;
+                oldValue.notify = value.notify;
+                if (newValue.onoff == 'on') {
+                    if (oldValue.target != 0 && newValue.target == 0 && !newValue.heating && !newValue.boil && !newValue.keepwarm) {
+                        notifyTarget(message.owner, oldValue.target);
+                    } else if (newValue.keepwarm && newValue.target && oldValue.keepwarm && (oldValue.target == newValue.target)) {
+                        if (!newValue.boil && !newValue.heating && oldValue.heating && (newValue.temperature - newValue.target) < 2) {
+                            if (!oldValue.notify) {
+                                notifyKeepwarm(message.owner, oldValue.target);
+                            }
+                            message.data.notify = true;
                         }
-                        message.data.notify = true;
+                    } else if (!newValue.keepwarm && newValue.target == 0 && oldValue.boil && !newValue.boil) {
+                        notifyBoiled(message.owner);
                     }
-                } else if (!newValue.keepwarm && newValue.target == 0 && oldValue.boil && !newValue.boil) {
-                    notifyBoiled(message.owner);
-                }
-                if (newValue.keepwarm && newValue.target && oldValue.keepwarm && (oldValue.target == newValue.target)) {
-                    if (oldValue.notify) {
-                        message.data.notify = true;
+                    if (newValue.keepwarm && newValue.target && oldValue.keepwarm && (oldValue.target == newValue.target)) {
+                        if (oldValue.notify) {
+                            message.data.notify = true;
+                        }
                     }
                 }
+            }catch(e){
+                console.log(e)
             }
             dataBucket.set(key, message.data, function (err) {
                 if (err) throw err;
