@@ -65,7 +65,7 @@ describe('Jpush', function () {
     });
 
     describe('Kettle', function () {
-        it('Kettle state change', function (done) {
+        it('Heating to target without warm without boil', function (done) {
             var delay = h.delay(20);
 
             delay(function () {
@@ -167,8 +167,588 @@ describe('Jpush', function () {
             h.delay(2000)(function () {
                 done();
             });
+        });
+
+        it('Heating to target without warm and boil', function (done) {
+            var delay = h.delay(20);
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 60,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 65,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 75,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 85,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 95,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 99,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 90,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 0,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
 
 
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 84,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 0,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 79,
+                        target: 0,
+                        boil: 0,
+                        keepwarm: 0,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            h.delay(2000)(function () {
+                done();
+            });
+        });
+
+        it.only('Heating to target and warm', function (done) {
+            var delay = h.delay(20);
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 60,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 65,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 67,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 75,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 79,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 81,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 78,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 81,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            h.delay(2000)(function () {
+                done();
+            });
+        });
+
+
+        it('Heating to target and warm and boil', function (done) {
+            var delay = h.delay(20);
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 60,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 65,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 75,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 85,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 95,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 99,
+                        target: 80,
+                        boil: 1,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 90,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 84,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 79,
+                        target: 0,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 81,
+                        target: 80,
+                        boil: 0,
+                        keepwarm: 1,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            h.delay(2000)(function () {
+                done();
+            });
+        });
+
+
+        it('Heating to boil', function (done) {
+            var delay = h.delay(20);
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 60,
+                        target: 0,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 65,
+                        target: 0,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 75,
+                        target: 0,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 85,
+                        target: 0,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 95,
+                        target: 0,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 99,
+                        target: 0,
+                        boil: 1,
+                        keepwarm: 0,
+                        heating: 1,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            delay(function () {
+                h.data(node, {
+                    D: 50004,
+                    DA: {
+                        temperature: 99,
+                        target: 0,
+                        boil: 0,
+                        keepwarm: 0,
+                        heating: 0,
+                        present: 1,
+                        onoff: 'on',
+                        volume: 1000
+                    }
+                });
+            });
+
+            h.delay(2000)(function () {
+                done();
+            });
         });
     });
 });
