@@ -9,11 +9,17 @@ module.exports = function () {
 
     // update last data on node:data
     napp.on('node:data', function (message) {
-        if (message.data.D != 50004 || !value) {
+        if (message.data.D != 50004) {
             return;
         }
         var key = cacheKey(message.owner, message.guid);
         dataBucket.get(key, function (err, value) {
+            if (!value) {
+                dataBucket.set(key, message.data, function (err) {
+                    if (err) throw err;
+                });
+                return;
+            }
             if (err) {
                 if (err) throw err;
             }
@@ -63,8 +69,8 @@ module.exports = function () {
                 if (err) {
                     if (err) throw err;
                 }
-
-                if (result.data.notify) {
+                var kettleState = result.data || result;
+                if (kettleState.notify) {
                     if (napp.pusher) {
                         napp.pusher.notify(owner, message, function (err) {
                             if (log.isDebugEnabled()) {
