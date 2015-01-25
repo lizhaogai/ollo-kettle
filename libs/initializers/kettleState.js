@@ -8,7 +8,14 @@ module.exports = function () {
     var dataBucket = napp.store.createBucket("kettle:data", {ttl: ttl}); // seconds
 
     // update last data on node:data
-    napp.on('node:data', function (message) {
+
+    var channel = napp.bus.subscribe('node');
+//    channel.on('data', function (message) {
+//        if (message) {
+//            rulen.process(message);
+//        }
+//    });
+    channel.on('data', function (message) {
         if (message.data.D == 50004) {
             return;
 
@@ -53,7 +60,7 @@ module.exports = function () {
                     if (err) throw err;
                 });
             });
-        } else if (message.data.D == 400) {
+        } else if (message.data.D == 4000) {
             var key = cacheKey(message.owner, message.guid);
             dataBucket.get(key, function (err, value) {
                 if (!value) {
