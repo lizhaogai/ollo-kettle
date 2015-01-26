@@ -1,5 +1,8 @@
 "use strict";
 
+var http = require("http");
+var querystring = require('querystring');
+
 var ttl = 24 * 60 * 60; // last data cache ttl 24 hours
 
 module.exports = function () {
@@ -79,6 +82,36 @@ module.exports = function () {
                     if (newValue.onoff == 'on' && oldValue.onoff == 'on') {
                         if (newValue.fn < 0 && oldValue.fn >= 0) {
                             sendNotification(message.owner, "已完成烧水");
+
+                            var post_data = querystring.stringify({
+                                msg: '已完成烧水',
+                                open_id: message.owner
+                            });
+                            var options = {
+                                hostname: 'device.vguang.com',
+                                port: 80,
+                                path: '/api/sendmsg',
+                                method: 'POST',
+                                headers: {
+                                    "Content-Type": 'application/x-www-form-urlencoded',
+                                    "Content-Length": post_data.length
+                                }
+                            };
+                            var req = http.request(options, function (res) {
+                                res.setEncoding('utf8');
+                                res.on('data', function (chunk) {
+                                    console.log('BODY: ' + chunk);
+                                });
+
+                            });
+
+                            req.on('error', function (error) {
+                                console.log('Error: ' + error);
+                            });
+
+                            console.log(post_data);
+                            req.write(post_data + "\n");
+                            req.end();
                         }
                     }
                 } catch (e) {
