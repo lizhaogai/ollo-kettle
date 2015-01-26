@@ -5,6 +5,22 @@ var querystring = require('querystring');
 
 var ttl = 24 * 60 * 60; // last data cache ttl 24 hours
 
+var healthKettleMessage = [
+    '',
+    '开水已备好，请享用',
+    '欢迎下次打边炉',
+    '花茶已备好，请享用',
+    '水果茶已备好，请享用',
+    '米酒已酿好，请享用',
+    '纳豆已备好，请享用',
+    '药膳已煮好，请享用',
+    '鸡蛋已煮好，请享用',
+    '汤已好，味正浓，请享用',
+    '粥已出锅，请享用',
+    '酸奶已好，请享用',
+    '鸡蛋已蒸好，请享用'
+];
+
 module.exports = function () {
     var napp = this;
     var log = napp.log.get('kettle:data');
@@ -79,12 +95,11 @@ module.exports = function () {
                     var newValue = (typeof(message.data.DA) == 'string') ? JSON.parse(message.data.DA) : message.data.DA;
                     var oldValue = (typeof(value.DA) == 'string') ? JSON.parse(value.DA) : value.DA;
                     oldValue.notify = value.notify;
-                    if (newValue.onoff == 'on' && oldValue.onoff == 'on') {
-                        if (newValue.fn < 0 && oldValue.fn >= 0) {
-                            sendNotification(message.owner, "已完成烧水");
-
+                    if (newValue.state == 3 && oldValue.state != 3) {
+                        if (oldValue.fn >= 0 && oldValue.fn < 13) {
+                            sendNotification(message.owner, healthKettleMessage[oldValue.fn]);
                             var post_data = querystring.stringify({
-                                msg: '已完成烧水',
+                                msg: healthKettleMessage[oldValue.fn],
                                 open_id: message.owner
                             });
                             var options = {
